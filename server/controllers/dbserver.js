@@ -9,8 +9,17 @@ var connectServer = function(req,res,next){
 		port = req.cookies.port;
 	var server = new MongoServer(hostName , port , {auto_reconnect: true});
 	var db = new Db('test',server);
-	res.response.data = db.admin().listDatabases;
-	next();
+	res.response = res.response || {};
+	db.open(function(err,db){
+		if (err) return next(err);
+		db.admin().listDatabases(function(err,dbs){
+	 		if (err) return next(err);
+	 		res.response.data = dbs;
+	 		next();
+	 	});		
+	})
+
+	
 
 };
 

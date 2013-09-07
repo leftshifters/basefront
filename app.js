@@ -38,7 +38,7 @@ app.use(function buildResponse(req, res, next) {
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/servername',[serverController.connectServer]);
-app.get('/:servername/:dbname',[databasecontroller.connectDatabase])
+app.get('/servername/dbname',[databasecontroller.connectDatabase]);
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });

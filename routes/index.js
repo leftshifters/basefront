@@ -3,9 +3,11 @@
  * GET home page.
  */
 
+var maxAge = 9000000000;
+
 exports.index = function(req, res){
-	res.cookie('hostname','localhost');
-	res.cookie('port',27017);
-	res.cookie('dbname','test');
-  res.render('index', { title: 'Express' });
+
+
+  res.render('index', { title: 'Basefront' });
+
 };
