@@ -33,12 +33,13 @@ if ('development' == app.get('env')) {
 
 app.use(function buildResponse(req, res, next) {
 	res.response = res.response || {};
-	next();	
+	next();
 });
 
 app.get('/', routes.index);
 
 app.get('/dbs', routes.dbs);
+
 
 app.get('/users', user.list);
 
@@ -54,6 +55,18 @@ app.get('/servername/dbname/collname/doc',[collcontroller.getdocument]); // sing
 app.post('/servername/dbname/collname/doc',[collcontroller.createDocument]); // create document
 
 app.put('/servername/dbname/collname/doc',[collcontroller.updateDocument]); // upate document
+
+app.get('/dbs/collections', routes.index);
+
+
+
+
+
+
+app.use(function(req, res, next) {
+  res.json(res.response || {});
+});
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

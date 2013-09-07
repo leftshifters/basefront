@@ -2,6 +2,7 @@ var Router = Backbone.Router.extend({
 
   routes: {
     'dbs': 'dbs',
+    'dbs/collections': 'collection',
     '*actions': 'defaultRoute'
   }
 
@@ -19,7 +20,7 @@ app.on('route:dbs', function(actions) {
     el: '.base'
   });
 
-  databaseListView.render();
+  databaseListView.render().renderList();
 });
 
 app.on('route:defaultRoute', function(actions) {
@@ -34,6 +35,14 @@ app.on('route:defaultRoute', function(actions) {
   // console.log(serverListView);
   serverListView.render();
 
+});
+
+app.on('route:collection', function(actions) {
+  var collectionListView = new app.views.collectionListView({
+    el: '.base'
+  });
+
+  collectionListView.render().renderList();
 });
 
 // Base View
@@ -141,13 +150,68 @@ app.views.serverListView = app.views.baseView.extend({
 app.views.databaseListView = app.views.baseView.extend({
   tpl: $('#databases').text(),
 
+  events: {
+    "click .js-database-item": "selectDb"
+  },
+
+  render: function() {
+
+    this.$el.html(this.tpl);
+    return this;
+  },
+
+  renderList: function() {
+    var jqxhr = $.get('/servername');
+    var self = this;
+
+    jqxhr.done(function(data) {
+      var fragment = [];
+      var databases = data.data.databases;
+
+      for (var i = 0, len = databases.length; i < len; ++i) {
+        fragment.push('<a href="#" class="list-group-item js-database-item" data-alias="' + databases[i].name + '">' + databases[i].name + '</a>');
+      }
+
+      self.$el.find('.js-databases').append(fragment.join(''));
+
+    });
+  },
+
+  selectDb: function(e) {
+    e.preventDefault();
+    var $target = $(e.target);
+    var alias = $target.attr('data-alias');
+
+    app.utils.setCookieItem('alias', alias, new Date(Date.now + app.COOKIE_MAX_AGE));
+    app.navigate('dbs/collections', { trigger: true });
+  }
+});
+
+// collection list view
+app.views.collectionListView = app.views.baseView.extend({
+  tpl: $('#collections').text(),
+
   render: function() {
     this.$el.html(this.tpl);
     return this;
   },
 
   renderList: function() {
+    var jqxhr = $.get('/servername/dbname');
+    var self = this;
 
+    jqxhr.done(function(data) {
+      console.log(data);
+      var fragment = [];
+      var collections = data.data;
+
+      for (var i = 0, len = collections.length; i < len; ++i) {
+        fragment.push('<a href="#" class="list-group-item js-collection-item" data-collection="' + collections[i].name + '">' + collections[i].name + '</a>');
+      }
+
+      self.$el.find('.js-collections').append(fragment.join(''));
+
+    });
   }
 });
 
