@@ -4,6 +4,7 @@ var MongoClient = require('mongodb').MongoClient,
 
 
 var getDocuments = function(req,res,next){
+	console.log(req.cookies);
 		var hostName = req.cookies.hostname,
 		port = req.cookies.port,
 		dbName = req.cookies.alias,
@@ -25,7 +26,7 @@ var getDocuments = function(req,res,next){
 var getDocument = function(req,res,next){
 	var hostName = req.cookies.hostname,
 		port = req.cookies.port,
-		dbName = req.cookies.alias,
+		dbName = req.cookies.dbname,
 		collectionName = req.cookies.collectionName ||  'names';
 	var server = new MongoServer(hostName,port,{auto_reconnect: false, poolSize: 4}, {w:0, native_parser: false});
 	db = new Db(dbName,server);
