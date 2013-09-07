@@ -1,6 +1,6 @@
 <script id="base" type="text/template">
-  <ul class="list-group js-servers">
-  </ul>
+  <div class="list-group js-servers">
+  </div>
   <div class="add-form">
 
     <div class="form-group">
@@ -20,5 +20,19 @@
 
     <button type="submit" class="btn btn-default js-add-server">Add</button>
 
+  </div>
+</script>
+
+<script id="databases" type="text/template">
+  <div class="list-group js-databases">
+  </div>
+
+  <div class="add-form">
+    <div class="form-group">
+      <label for="dname">Name</label>
+      <input type="text" class="form-control" id="dname" placeholder="awesomes">
+    </div>
+
+    <button type="submit" class="btn btn-default js-add-database">Add</button>
   </div>
 </script>
