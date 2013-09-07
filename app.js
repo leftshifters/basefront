@@ -39,6 +39,7 @@ app.get('/', routes.index);
 
 app.get('/dbs', routes.dbs);
 app.get('/dbs/collections', routes.index);
+app.get('/dbs/collections/documents', routes.index);
 app.get('/users', user.list);
 app.get('/servername',[serverController.connectServer]);
 app.get('/servername/dbname',[databasecontroller.connectDatabase]);

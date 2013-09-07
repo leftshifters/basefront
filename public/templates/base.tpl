@@ -51,3 +51,17 @@
     <button type="submit" class="btn btn-default js-add-collection">Add</button>
   </div>
 </script>
+
+<script id="documents" type="text/template">
+  <div class="list-group js-documents">
+  </div>
+
+  <div class="add-form">
+    <div class="form-group">
+      <label for="document-name">Document</label>
+      <input type="text" class="form-control" id="document-name" placeholder="stuff">
+    </div>
+
+    <button type="submit" class="btn btn-default js-add-document">Add</button>
+  </div>
+</script>

@@ -3,6 +3,7 @@ var Router = Backbone.Router.extend({
   routes: {
     'dbs': 'dbs',
     'dbs/collections': 'collection',
+    'dbs/collections/documents': 'documents',
     '*actions': 'defaultRoute'
   }
 
@@ -28,13 +29,7 @@ app.on('route:defaultRoute', function(actions) {
     el: '.base'
   });
 
-  // console.log(app.views);
-
-  // console.log(app.views.serverListView);
-
-  // console.log(serverListView);
   serverListView.render();
-
 });
 
 app.on('route:collection', function(actions) {
@@ -43,6 +38,14 @@ app.on('route:collection', function(actions) {
   });
 
   collectionListView.render().renderList();
+});
+
+app.on('route:documents', function(actions) {
+  var documentListView = new app.views.documentListView({
+    el: '.base'
+  });
+
+  documentListView.render();
 });
 
 // Base View
@@ -191,6 +194,10 @@ app.views.databaseListView = app.views.baseView.extend({
 app.views.collectionListView = app.views.baseView.extend({
   tpl: $('#collections').text(),
 
+  events: {
+    'click .js-collection-item': 'selectCollection'
+  },
+
   render: function() {
     this.$el.html(this.tpl);
     return this;
@@ -201,7 +208,6 @@ app.views.collectionListView = app.views.baseView.extend({
     var self = this;
 
     jqxhr.done(function(data) {
-      console.log(data);
       var fragment = [];
       var collections = data.data;
 
@@ -210,6 +216,43 @@ app.views.collectionListView = app.views.baseView.extend({
       }
 
       self.$el.find('.js-collections').append(fragment.join(''));
+
+    });
+  },
+
+  selectCollection: function(e) {
+    e.preventDefault();
+    var $target = $(e.target);
+    var collection = $target.attr('data-collection');
+
+    app.utils.setCookieItem('collection', collection, new Date(Date.now + app.COOKIE_MAX_AGE));
+
+    app.navigate('/dbs/collections/documents', { trigger: true });
+  }
+});
+
+// document list view
+app.views.documentListView = app.views.baseView.extend({
+  tpl: $('#documents').text(),
+
+  render: function() {
+    this.$el.html(this.tpl);
+    return this;
+  },
+
+  renderList: function() {
+    var jqxhr = $.get('/servername/dbname');
+    var self = this;
+
+    jqxhr.done(function(data) {
+      var fragment = [];
+      var collections = data.data;
+
+      for (var i = 0, len = collections.length; i < len; ++i) {
+        fragment.push('<a href="#" class="list-group-item js-document-item" data-document="' + collections[i].name + '">' + collections[i].name + '</a>');
+      }
+
+      self.$el.find('.js-documents').append(fragment.join(''));
 
     });
   }
