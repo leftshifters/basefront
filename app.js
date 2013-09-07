@@ -58,6 +58,7 @@ app.post('/documents',[collcontroller.createDocument]); // create document
 
 app.put('/servername/dbname/collname/doc',[collcontroller.updateDocument]); // upate document
 
+//app.delete('servername/dbname/collname/doc',[collcontroller.deleteDocument]) // delete document
 
 app.use(function(req, res, next) {
   res.json(res.response || {});
