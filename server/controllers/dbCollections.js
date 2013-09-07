@@ -70,10 +70,10 @@ var updateDocument = function(req,res,next){
 		db.open(function(err,db){
 			if (err) return next(err);
 			var collection = db.collection(collectionName);
-			collection.findOne({_id: new ObjectID(req.body.docid)},function(err,doc){
+			collection.findOne(req.body.oldDoc,function(err,doc){
 				if (err) return next(err);
-				doc = req.body.doc;
-				collection.update({_id: new ObjectID(req.body.docid)},doc,function(err,updatedDoc){
+				doc = req.body.newDoc;
+				collection.update(req.body.oldDoc,doc,function(err,updatedDoc){
 					if(err) return next(err);
 					res.response.data = updatedDoc;
 					next();
@@ -98,3 +98,4 @@ exports.getDocuments = getDocuments;
 exports.getDocument = getDocument;
 exports.createDocument = createDocument;
 exports.updateDocument = updateDocument;
+exports.deleteDocument = deleteDocument;
