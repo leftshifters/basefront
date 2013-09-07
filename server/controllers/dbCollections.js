@@ -45,7 +45,7 @@ var createDocument = function(req,res,next){
 	var hostName = req.cookies.hostname,
 		port = req.cookies.port,
 		dbName = req.cookies.dbname,
-		collectionName = req.cookies.collectionName ||  'names';
+		collectionName = req.body.document;
 	var server = new MongoServer(hostName,port,{auto_reconnect: false, poolSize: 4}, {w:0, native_parser: false});
 	db = new Db(dbName,server);
 	db.open(function(err,db){
@@ -57,7 +57,7 @@ var createDocument = function(req,res,next){
 				next();
 			});
 		});
-	});		
+	});
 };
 
 var updateDocument = function(req,res,next){
@@ -77,12 +77,12 @@ var updateDocument = function(req,res,next){
 				collection.update({_id: new ObjectID(req.body.docid)},doc,function(err,updatedDoc){
 					if(err) return next(err);
 					res.response.data = updatedDoc;
-					next();				
+					next();
 				})
 
 			});
 		});
-	});	
+	});
 };
 
 

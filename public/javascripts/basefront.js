@@ -235,6 +235,11 @@ app.views.collectionListView = app.views.baseView.extend({
 app.views.documentListView = app.views.baseView.extend({
   tpl: $('#documents').text(),
 
+  events: {
+    "click .js-document-item": "selectDocument",
+    "click .js-add-document": "addDocument"
+  },
+
   render: function() {
     this.$el.html(this.tpl);
     return this;
@@ -256,6 +261,23 @@ app.views.documentListView = app.views.baseView.extend({
       self.$el.find('.js-documents').append(fragment.join(''));
 
     });
+  },
+
+  selectDocument: function(e) {
+    var $target = $(e.target);
+  },
+
+  addDocument: function(e) {
+    var $target = $(e.target).val();
+    var doc = this.$('#js-document-name').val();
+    var jqxhr = $.post('/documents', { document: doc });
+    var self = this;
+
+    jqxhr.done(function(data) {
+      console.log(data);
+    });
+
+    app.navigate('/dbs/collections/documents', { trigger: true });
   }
 });
 

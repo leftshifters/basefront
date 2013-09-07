@@ -54,13 +54,9 @@ app.get('/servername/dbname/collname',[collcontroller.getDocuments]); // list of
 
 app.get('/servername/dbname/collname/doc',[collcontroller.getDocument]); // single document
 
-app.post('/servername/dbname/collname/doc',[collcontroller.createDocument]); // create document
+app.post('/documents',[collcontroller.createDocument]); // create document
 
 app.put('/servername/dbname/collname/doc',[collcontroller.updateDocument]); // upate document
-
-
-
-
 
 
 app.use(function(req, res, next) {
