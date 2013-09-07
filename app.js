@@ -50,7 +50,7 @@ app.get('/servername/dbname',[databasecontroller.connectDatabase]); // list of c
 
 app.get('/servername/dbname/collname',[collcontroller.getDocuments]); // list of documents
 
-app.get('/servername/dbname/collname/doc',[collcontroller.getdocument]); // single document
+app.get('/servername/dbname/collname/doc',[collcontroller.getDocument]); // single document
 
 app.post('/servername/dbname/collname/doc',[collcontroller.createDocument]); // create document
 
