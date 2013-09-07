@@ -48,7 +48,6 @@ var createDocument = function(req,res,next){
 		collectionName = req.body.document;
 	var server = new MongoServer(hostName,port,{auto_reconnect: false, poolSize: 4}, {w:0, native_parser: false});
 	db = new Db(dbName,server);
-	db.open(function(err,db){
 		db.open(function(err,db){
 			if (err) return next(err);
 			db.collection(collectionName).insert(req.body.doc,function(err,doc){
@@ -57,7 +56,7 @@ var createDocument = function(req,res,next){
 				next();
 			});
 		});
-	});
+	
 };
 
 var updateDocument = function(req,res,next){
