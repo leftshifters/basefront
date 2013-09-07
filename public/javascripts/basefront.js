@@ -45,7 +45,7 @@ app.on('route:documents', function(actions) {
     el: '.base'
   });
 
-  documentListView.render();
+  documentListView.render().renderList();
 });
 
 // Base View
@@ -225,7 +225,7 @@ app.views.collectionListView = app.views.baseView.extend({
     var $target = $(e.target);
     var collection = $target.attr('data-collection');
 
-    app.utils.setCookieItem('collection', collection, new Date(Date.now + app.COOKIE_MAX_AGE));
+    app.utils.setCookieItem('collectionName', collection, new Date(Date.now + app.COOKIE_MAX_AGE));
 
     app.navigate('/dbs/collections/documents', { trigger: true });
   }
@@ -241,15 +241,16 @@ app.views.documentListView = app.views.baseView.extend({
   },
 
   renderList: function() {
-    var jqxhr = $.get('/servername/dbname');
+    var jqxhr = $.get('/servername/dbname/collname');
     var self = this;
 
     jqxhr.done(function(data) {
+      console.log(data);
       var fragment = [];
-      var collections = data.data;
+      var documents = data.data;
 
-      for (var i = 0, len = collections.length; i < len; ++i) {
-        fragment.push('<a href="#" class="list-group-item js-document-item" data-document="' + collections[i].name + '">' + collections[i].name + '</a>');
+      for (var i = 0, len = documents.length; i < len; ++i) {
+        fragment.push('<a href="#" class="list-group-item js-document-item" data-document="' + documents[i].name + '">' + documents[i].name + '</a>');
       }
 
       self.$el.find('.js-documents').append(fragment.join(''));
