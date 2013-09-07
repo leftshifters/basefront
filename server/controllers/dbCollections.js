@@ -32,7 +32,7 @@ var getDocument = function(req,res,next){
 	db.open(function(err,db){
 		db.open(function(err,db){
 			if (err) return next(err);
-			db.collection(collectionName).findOne({_id: new ObjectID(req.body.docid},function(err,doc){
+			db.collection(collectionName).findOne({_id: new ObjectID(req.body.docid)},function(err,doc){
 				if (err) return next(err);
 				res.response.data = doc;
 				next();
@@ -44,7 +44,7 @@ var getDocument = function(req,res,next){
 var createDocument = function(req,res,next){
 	var hostName = req.cookies.hostname,
 		port = req.cookies.port,
-		dbName = req.cookies.ddbname,
+		dbName = req.cookies.dbname,
 		collectionName = req.cookies.collectionName ||  'names';
 	var server = new MongoServer(hostName,port,{auto_reconnect: false, poolSize: 4}, {w:0, native_parser: false});
 	db = new Db(dbName,server);
@@ -63,7 +63,7 @@ var createDocument = function(req,res,next){
 var updateDocument = function(req,res,next){
 	var hostName = req.cookies.hostname,
 		port = req.cookies.port,
-		dbName = req.cookies.ddbname,
+		dbName = req.cookies.dbname,
 		collectionName = req.cookies.collectionName ||  'names';
 	var server = new MongoServer(hostName,port,{auto_reconnect: false, poolSize: 4}, {w:0, native_parser: false});
 	db = new Db(dbName,server);
@@ -71,10 +71,10 @@ var updateDocument = function(req,res,next){
 		db.open(function(err,db){
 			if (err) return next(err);
 			var collection = db.collection(collectionName);
-			collection.findOne({_id: new ObjectID(req.body.docid},function(err,doc){
+			collection.findOne({_id: new ObjectID(req.body.docid)},function(err,doc){
 				if (err) return next(err);
 				doc = req.body.doc;
-				collection.update({_id: new ObjectID(req.body.docid},doc,function(err,updatedDoc){
+				collection.update({_id: new ObjectID(req.body.docid)},doc,function(err,updatedDoc){
 					if(err) return next(err);
 					res.response.data = updatedDoc;
 					next();				

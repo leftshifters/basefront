@@ -39,13 +39,22 @@ app.use(function buildResponse(req, res, next) {
 app.get('/', routes.index);
 
 app.get('/dbs', routes.dbs);
+
 app.get('/users', user.list);
+
+
 app.get('/servername',[serverController.connectServer]); //this will bring the list of databases
+
 app.get('/servername/dbname',[databasecontroller.connectDatabase]); // list of collections
+
 app.get('/servername/dbname/collname',[collcontroller.getDocuments]); // list of documents
-app.get('/servernam/dbna/collname/doc',[collcontroller.getdocument]); // single document
-app.post('/servernam/dbna/collname/doc',[collcontroller.createDocument]); // create document
-app.put('/servernam/dbna/collname/doc',[collcontroller.updateDocument]); // upate document
+
+app.get('/servername/dbname/collname/doc',[collcontroller.getdocument]); // single document
+
+app.post('/servername/dbname/collname/doc',[collcontroller.createDocument]); // create document
+
+app.put('/servername/dbname/collname/doc',[collcontroller.updateDocument]); // upate document
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
