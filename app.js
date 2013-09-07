@@ -7,7 +7,8 @@ var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
 var serverController =  require('./server/controllers/dbserver');
-var databasecontroller = require('./server/controllers/userDatabase')
+var databasecontroller = require('./server/controllers/userDatabase');
+var collcontroller = require('./server/controllers/dbCollections');
 var http = require('http');
 var path = require('path');
 
@@ -39,6 +40,7 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/servername',[serverController.connectServer]);
 app.get('/servername/dbname',[databasecontroller.connectDatabase]);
+app.get('/servername/dbname/collname',[collcontroller.getDocuments]);
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
