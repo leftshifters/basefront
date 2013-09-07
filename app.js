@@ -56,6 +56,8 @@ app.post('/servername/dbname/collname/doc',[collcontroller.createDocument]); // 
 
 app.put('/servername/dbname/collname/doc',[collcontroller.updateDocument]); // upate document
 
+//app.delete('servername/dbname/collname/doc',[collcontroller.deleteDocument]) // delete document
+
 app.get('/dbs/collections', routes.index);
 
 

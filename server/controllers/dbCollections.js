@@ -86,6 +86,13 @@ var updateDocument = function(req,res,next){
 };
 
 
+var deleteDocument = function(req,res,next){
+	var hostName = req.cookies.hostname,
+		port = req.cookies.port,
+		dbName = req.cookies.dbname,
+		collectionName = req.cookies.collectionName ||  'names';
+};
+
 
 
 exports.getDocuments = getDocuments;

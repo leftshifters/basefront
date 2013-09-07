@@ -17,6 +17,17 @@ var connectDatabase = function(req,res,next){
 		 db.collectionNames(function(err,collections){
 		 	if (err) return next(err);
 		 	res.response =res.response || {};
+		 	var collectionToRemove = null;
+		 	collections = Array.prototype.slice.call(collections,0);
+		 	var index = null;
+		 	for(var i = 0; i < collections.length; ++i) {
+		 		var splitted = collections[i].name.split('.');
+		 		if (splitted.length >= 3)
+		 			index = i;
+		 		else
+		 			collections[i].name = splitted[1];
+		 	}
+		 	collections.splice(index,1);
 		 	res.response.data = collections;
 			next();
 		 });
