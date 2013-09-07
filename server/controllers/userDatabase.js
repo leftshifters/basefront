@@ -10,6 +10,7 @@ var connectDatabase = function(req,res,next){
 		port = req.cookies.port,
 		dbName = req.cookies.alias;
 		var server = new MongoServer("127.0.0.1", port, {auto_reconnect: true}, {w:1});
+
 		db = new Db(dbName,server);
 		db.open(function(err,db){
 		if(err) return next(err);
@@ -22,7 +23,6 @@ var connectDatabase = function(req,res,next){
 
 	});
 };
-
 
 
 exports.connectDatabase = connectDatabase;
