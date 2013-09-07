@@ -38,9 +38,12 @@ app.use(function buildResponse(req, res, next) {
 app.get('/', routes.index);
 
 app.get('/dbs', routes.dbs);
+app.get('/dbs/collections', routes.index);
 app.get('/users', user.list);
 app.get('/servername',[serverController.connectServer]);
 app.get('/servername/dbname',[databasecontroller.connectDatabase]);
+
+
 
 
 app.use(function(req, res, next) {
