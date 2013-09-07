@@ -8,8 +8,8 @@ var MongoClient = require('mongodb').MongoClient,
 var connectDatabase = function(req,res,next){
 	var hostName = req.cookies.hostname,
 		port = req.cookies.port,
-		dbName = req.cookies.dbname;
-		var server = new MongoServer("127.0.0.1",port,{auto_reconnect: false, poolSize: 4}, {w:0, native_parser: false});
+		dbName = req.cookies.alias;
+		var server = new MongoServer("127.0.0.1", port, {auto_reconnect: true}, {w:1});
 		db = new Db(dbName,server);
 		db.open(function(err,db){
 		if(err) return next(err);
@@ -17,7 +17,7 @@ var connectDatabase = function(req,res,next){
 		 	if (err) return next(err);
 		 	res.response =res.response || {};
 		 	res.response.data = collections;
-			next();	 	
+			next();
 		 });
 
 	});

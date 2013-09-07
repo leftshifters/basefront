@@ -19,7 +19,7 @@ app.on('route:dbs', function(actions) {
     el: '.base'
   });
 
-  databaseListView.render();
+  databaseListView.render().renderList();
 });
 
 app.on('route:defaultRoute', function(actions) {
@@ -142,12 +142,26 @@ app.views.databaseListView = app.views.baseView.extend({
   tpl: $('#databases').text(),
 
   render: function() {
+
     this.$el.html(this.tpl);
     return this;
   },
 
   renderList: function() {
+    var jqxhr = $.get('/servername');
+    var self = this;
 
+    jqxhr.done(function(data) {
+      var fragment = [];
+      var databases = data.data.databases;
+
+      for (var i = 0, len = databases.length; i < len; ++i) {
+        fragment.push('<a href="#" class="list-group-item js-database-item">' + databases[i].name + '</a>');
+      }
+
+      self.$el.find('.js-databases').append(fragment.join(''));
+
+    });
   }
 });
 
