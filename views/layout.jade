@@ -6,8 +6,14 @@ html
     link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js')
 
     script(type='text/javascript' , src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.1/underscore-min.js')
+    script(type='text/javascript', src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js')
     script(type='text/javascript', src='//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js')
+
+
 
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     block content
+
+  include ../public/templates/base.tpl
+  script(type='text/javascript', src='/javascripts/basefront.js')
