@@ -24,5 +24,4 @@ var connectDatabase = function(req,res,next){
 };
 
 
-
 exports.connectDatabase = connectDatabase;

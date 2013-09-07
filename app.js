@@ -43,6 +43,8 @@ app.get('/users', user.list);
 app.get('/servername',[serverController.connectServer]);
 app.get('/servername/dbname',[databasecontroller.connectDatabase]);
 app.get('/servername/dbname/collname',[collcontroller.getDocuments]);
+app.get('/servernam/dbna/collname/doc',[collcontroller.getdocument]);
+app.post('/servernam/dbna/collname/doc',[collcontroller.createDocument]);
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
