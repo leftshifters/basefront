@@ -56,12 +56,11 @@
   <div class="list-group js-documents">
   </div>
 
-  <div class="add-form">
-    <div class="form-group">
-      <label for="document-name">Document</label>
-      <input type="text" class="form-control" id="document-name" placeholder="stuff">
-    </div>
+  <button type="submit" class="btn btn-default btn-primary js-add-document">Add New</button>
+</script>
 
-    <button type="submit" class="btn btn-default js-add-document">Add</button>
-  </div>
+<script id="document" type="text/template">
+  <form class="document-modal">
+    <textarea id="document-content" class="zen-mode go-zen">{ foo: 'bar' }</textarea>
+  </form>
 </script>

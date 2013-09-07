@@ -186,6 +186,7 @@ app.views.databaseListView = app.views.baseView.extend({
     var alias = $target.attr('data-alias');
 
     app.utils.setCookieItem('alias', alias, new Date(Date.now + app.COOKIE_MAX_AGE));
+    app.utils.setCookieItem('dbname', alias, new Date(Date.now + app.COOKIE_MAX_AGE));
     app.navigate('dbs/collections', { trigger: true });
   }
 });
@@ -234,10 +235,17 @@ app.views.collectionListView = app.views.baseView.extend({
 // document list view
 app.views.documentListView = app.views.baseView.extend({
   tpl: $('#documents').text(),
+  addTpl: $('#document').text(),
 
   events: {
     "click .js-document-item": "selectDocument",
-    "click .js-add-document": "addDocument"
+    "click .js-add-document": "addDocument",
+    "click .js-save-doc": "saveDocument",
+    "click .js-cancel-doc": "cancelDocument"
+  },
+
+  initialize: function() {
+    _.bindAll(this, 'saveDocument');
   },
 
   render: function() {
@@ -255,7 +263,8 @@ app.views.documentListView = app.views.baseView.extend({
       var documents = data.data;
 
       for (var i = 0, len = documents.length; i < len; ++i) {
-        fragment.push('<a href="#" class="list-group-item js-document-item" data-document="' + documents[i].name + '">' + documents[i].name + '</a>');
+        var stringified = JSON.stringify(documents[i]);
+        fragment.push('<a href="#" class="list-group-item js-document-item" data-document="' + stringified + '">' + stringified.substr(0, 64) + '</a>');
       }
 
       self.$el.find('.js-documents').append(fragment.join(''));
@@ -269,15 +278,41 @@ app.views.documentListView = app.views.baseView.extend({
 
   addDocument: function(e) {
     var $target = $(e.target).val();
-    var doc = this.$('#js-document-name').val();
-    var jqxhr = $.post('/documents', { document: doc });
-    var self = this;
+    // this.$zenform = this.$zenform || this.$('.zen-mode');
+    // var $zenform;
 
-    jqxhr.done(function(data) {
-      console.log(data);
-    });
+    // this.$el.append(this.addTpl);
+    // // $zenform = this.$('.zen-mode')
+    // // var doc = this.$('#js-document-name').val();
+    // // var jqxhr = $.post('/documents', { document: doc });
+    // var self = this;
 
-    app.navigate('/dbs/collections/documents', { trigger: true });
+    // this.$zenform.on('zf-initialized', function(e, el) {
+    //   // console.log($(el).find('.js-save-doc'));
+    //   $(el).find('.js-save-doc').on('click', function() {
+    //     self.saveDocument();
+    //     // $zenform.trigger('destroy');
+    //     // $('.zen-forms-body-wrap').removeClass('zen-forms-body-wrap');
+    //   });
+    // });
+
+    // this.$('.zen-mode').zenForm({ theme: 'light' }).trigger('init');
+
+
+    // jqxhr.done(function(data) {
+    //   console.log(data);
+    // });
+
+    // app.navigate('/dbs/collections/documents', { trigger: true });
+  },
+
+  saveDocument: function(e) {
+    var $content = this.$('#document-content').val();
+    alert($content);
+  },
+
+  cancelDocument: function(e) {
+
   }
 });
 
