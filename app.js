@@ -56,7 +56,7 @@ app.get('/servername/dbname/collname/doc',[collcontroller.getDocument]); // sing
 
 app.post('/documents',[collcontroller.createDocument]); // create document
 
-app.put('/servername/dbname/collname/doc',[collcontroller.updateDocument]); // upate document
+app.post('/servername/dbname/collname/doc',[collcontroller.updateDocument]); // upate document
 
 //app.delete('servername/dbname/collname/doc',[collcontroller.deleteDocument]) // delete document
 

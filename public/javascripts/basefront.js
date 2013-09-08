@@ -259,6 +259,7 @@ app.views.documentListView = app.views.baseView.extend({
     "click .js-document-item": "selectDocument",
     "click .js-add-document": "addDocument",
     "click .saveDoc": "saveDocument",
+    "click .updateDoc": "updateDocument",
     "click .js-cancel-doc": "cancelDocument"
   },
 
@@ -282,7 +283,7 @@ app.views.documentListView = app.views.baseView.extend({
 
       for (var i = 0, len = documents.length; i < len; ++i) {
         var stringified = JSON.stringify(documents[i]);
-        fragment.push('<a href="#" class="list-group-item js-document-item" data-document="' + stringified + '">' + stringified.substr(0, 64) + '</a>');
+        fragment.push('<a href="#" class="list-group-item js-document-item" data-document="' + escape(stringified) + '">' + stringified.substr(0, 64) + '</a>');
       }
 
       self.$el.find('.js-documents').html('').append(fragment.join(''));
@@ -291,7 +292,13 @@ app.views.documentListView = app.views.baseView.extend({
   },
 
   selectDocument: function(e) {
+    e.preventDefault();
     var $target = $(e.target);
+    var docContent = $target.attr('data-document');
+    this.oldDoc = docContent;
+
+    $('#myModal-edit').modal('show');
+    this.$('#documentBodyUpdate').val(unescape(docContent));
   },
 
   addDocument: function(e) {
@@ -331,6 +338,16 @@ app.views.documentListView = app.views.baseView.extend({
     var jqxhr = $.post('/documents',JSON.parse($content));
     jqxhr.done(function(data){
       $("#myModal").modal('hide');
+         self.renderList();
+    });
+  },
+
+  updateDocument: function(e) {
+    var self = this;
+    var $content = this.$('#documentBodyUpdate').val();
+    var jqxhr = $.post('/servername/dbname/collname/doc', { oldDoc: this.oldDoc, newDoc: JSON.parse($content) });
+    jqxhr.done(function(data){
+      $("#myModal-edit").modal('hide');
          self.renderList();
     });
   },

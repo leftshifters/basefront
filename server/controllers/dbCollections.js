@@ -1,5 +1,6 @@
 var MongoClient = require('mongodb').MongoClient,
 	MongoServer = require('mongodb').Server,
+	ObjectId = require('mongodb').ObjectID,
 	Db  = require('mongodb').Db;
 
 
@@ -58,7 +59,7 @@ var createDocument = function(req,res,next){
 				next();
 			});
 		});
-	
+
 };
 
 var updateDocument = function(req,res,next){
@@ -68,22 +69,24 @@ var updateDocument = function(req,res,next){
 		collectionName = req.cookies.collectionName ||  'names';
 	var server = new MongoServer(hostName,port,{auto_reconnect: false, poolSize: 4}, {w:0, native_parser: false});
 	db = new Db(dbName,server);
-	db.open(function(err,db){
-		db.open(function(err,db){
-			if (err) return next(err);
-			var collection = db.collection(collectionName);
-			collection.findOne(req.body.oldDoc,function(err,doc){
-				if (err) return next(err);
-				doc = req.body.newDoc;
-				collection.update(req.body.oldDoc,doc,function(err,updatedDoc){
-					if(err) return next(err);
-					res.response.data = updatedDoc;
-					next();
-				})
 
-			});
+	db.open(function(err,db){
+		if (err) return next(err);
+		var collection = db.collection(collectionName);
+		collection.findOne(req.body.oldDoc,function(err,doc){
+			if (err) return next(err);
+			doc = req.body.newDoc;
+			var id = req.body.oldDoc._id;
+			collection.update({_id: new ObjectId(id)},doc,function(err,updatedDoc){
+				if(err) return next(err);
+				res.response = res.response || {};
+				res.response.data = updatedDoc;
+				next();
+			})
+
 		});
 	});
+
 };
 
 

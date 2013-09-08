@@ -72,6 +72,20 @@
     </div>
   </div>
 </div>
+
+<div id="myModal-edit" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <textarea id='documentBodyUpdate' style="width:100%;height:100%;"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary updateDoc">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
 </script>
 
 <script id="document" type="text/template">
