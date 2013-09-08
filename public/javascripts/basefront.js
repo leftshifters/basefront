@@ -154,7 +154,8 @@ app.views.databaseListView = app.views.baseView.extend({
   tpl: $('#databases').text(),
 
   events: {
-    "click .js-database-item": "selectDb"
+    "click .js-database-item": "selectDb",
+    "click .js-add-database": "addDatabase"
   },
 
   render: function() {
@@ -188,6 +189,14 @@ app.views.databaseListView = app.views.baseView.extend({
     app.utils.setCookieItem('alias', alias, new Date(Date.now + app.COOKIE_MAX_AGE));
     app.utils.setCookieItem('dbname', alias, new Date(Date.now + app.COOKIE_MAX_AGE));
     app.navigate('dbs/collections', { trigger: true });
+  },
+
+  addDatabase: function(e) {
+    var $database = this.$('#dbname');
+    var database = $database.val();
+
+    this.$('.js-databases').append('<a href="#" class="list-group-item js-database-item data-alias="' + database + '">' + database + '</a>');
+    $database.val('');
   }
 });
 
@@ -196,7 +205,8 @@ app.views.collectionListView = app.views.baseView.extend({
   tpl: $('#collections').text(),
 
   events: {
-    'click .js-collection-item': 'selectCollection'
+    'click .js-collection-item': 'selectCollection',
+    "click .js-add-collection": "addCollection"
   },
 
   render: function() {
@@ -229,6 +239,14 @@ app.views.collectionListView = app.views.baseView.extend({
     app.utils.setCookieItem('collectionName', collection, new Date(Date.now + app.COOKIE_MAX_AGE));
 
     app.navigate('/dbs/collections/documents', { trigger: true });
+  },
+
+  addCollection: function(e) {
+    var $collection = this.$('#collection-name');
+    var collection = $collection.val();
+
+    this.$('.js-collections').append('<a href="#" class="list-group-item js-collection-item" data-collection="' + collection + '">' + collection + '</a>');
+    $collection.val('');
   }
 });
 

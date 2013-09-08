@@ -29,8 +29,8 @@
 
   <div class="add-form">
     <div class="form-group">
-      <label for="dname">Name</label>
-      <input type="text" class="form-control" id="dname" placeholder="awesomes">
+      <label for="dbname">Name</label>
+      <input type="text" class="form-control" id="dbname" placeholder="awesomes">
     </div>
 
     <button type="submit" class="btn btn-default js-add-database">Add</button>
