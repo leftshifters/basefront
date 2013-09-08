@@ -184,7 +184,7 @@ app.views.databaseListView = app.views.baseView.extend({
   selectDb: function(e) {
     e.preventDefault();
     var $target = $(e.target);
-    var alias = $target.attr('data-alias');
+    var alias = $.trim($target.attr('data-alias'));
 
     app.utils.setCookieItem('alias', alias, new Date(Date.now + app.COOKIE_MAX_AGE));
     app.utils.setCookieItem('dbname', alias, new Date(Date.now + app.COOKIE_MAX_AGE));
@@ -193,9 +193,9 @@ app.views.databaseListView = app.views.baseView.extend({
 
   addDatabase: function(e) {
     var $database = this.$('#dbname');
-    var database = $database.val();
+    var database = $.trim($database.val());
 
-    this.$('.js-databases').append('<a href="#" class="list-group-item js-database-item data-alias="' + database + '">' + database + '</a>');
+    this.$('.js-databases').append('<a href="#" class="list-group-item js-database-item" data-alias="' + database + '">' + database + '</a>');
     $database.val('');
   }
 });
