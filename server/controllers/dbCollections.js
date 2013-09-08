@@ -46,19 +46,19 @@ var createDocument = function(req,res,next){
 	var hostName = req.cookies.hostname,
 		port = req.cookies.port,
 		dbName = req.cookies.dbname,
-		collectionName = req.body.document;
+		collectionName = req.cookies.collectionName;
 	var server = new MongoServer(hostName,port,{auto_reconnect: false, poolSize: 4}, {w:0, native_parser: false});
 	db = new Db(dbName,server);
-	db.open(function(err,db){
 		db.open(function(err,db){
 			if (err) return next(err);
-			db.collection(collectionName).insert(req.body.doc,function(err,doc){
+			db.collection(collectionName).insert(req.body,function(err,doc){
 				if (err) return next(err);
+				res.response = res.response || {};
 				res.response.data = doc;
 				next();
 			});
 		});
-	});
+	
 };
 
 var updateDocument = function(req,res,next){
@@ -72,10 +72,10 @@ var updateDocument = function(req,res,next){
 		db.open(function(err,db){
 			if (err) return next(err);
 			var collection = db.collection(collectionName);
-			collection.findOne({_id: new ObjectID(req.body.docid)},function(err,doc){
+			collection.findOne(req.body.oldDoc,function(err,doc){
 				if (err) return next(err);
-				doc = req.body.doc;
-				collection.update({_id: new ObjectID(req.body.docid)},doc,function(err,updatedDoc){
+				doc = req.body.newDoc;
+				collection.update(req.body.oldDoc,doc,function(err,updatedDoc){
 					if(err) return next(err);
 					res.response.data = updatedDoc;
 					next();
@@ -100,3 +100,4 @@ exports.getDocuments = getDocuments;
 exports.getDocument = getDocument;
 exports.createDocument = createDocument;
 exports.updateDocument = updateDocument;
+exports.deleteDocument = deleteDocument;

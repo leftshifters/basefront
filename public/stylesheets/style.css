@@ -23,3 +23,8 @@ a {
   border: 0;*/
   display: none;
 }
+
+.modal-body{
+  height: 500px;
+
+}

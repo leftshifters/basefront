@@ -258,7 +258,7 @@ app.views.documentListView = app.views.baseView.extend({
   events: {
     "click .js-document-item": "selectDocument",
     "click .js-add-document": "addDocument",
-    "click .js-save-doc": "saveDocument",
+    "click .saveDoc": "saveDocument",
     "click .js-cancel-doc": "cancelDocument"
   },
 
@@ -285,7 +285,7 @@ app.views.documentListView = app.views.baseView.extend({
         fragment.push('<a href="#" class="list-group-item js-document-item" data-document="' + stringified + '">' + stringified.substr(0, 64) + '</a>');
       }
 
-      self.$el.find('.js-documents').append(fragment.join(''));
+      self.$el.find('.js-documents').html('').append(fragment.join(''));
 
     });
   },
@@ -295,7 +295,8 @@ app.views.documentListView = app.views.baseView.extend({
   },
 
   addDocument: function(e) {
-    var $target = $(e.target).val();
+    e.preventDefault();
+    $("#myModal").modal('show');
     // this.$zenform = this.$zenform || this.$('.zen-mode');
     // var $zenform;
 
@@ -325,8 +326,13 @@ app.views.documentListView = app.views.baseView.extend({
   },
 
   saveDocument: function(e) {
-    var $content = this.$('#document-content').val();
-    alert($content);
+    var self = this;
+    var $content = this.$('#documentBody').val();
+    var jqxhr = $.post('/documents',JSON.parse($content));
+    jqxhr.done(function(data){
+      $("#myModal").modal('hide');
+         self.renderList();
+    });
   },
 
   cancelDocument: function(e) {
