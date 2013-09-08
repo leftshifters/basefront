@@ -46,13 +46,14 @@ var createDocument = function(req,res,next){
 	var hostName = req.cookies.hostname,
 		port = req.cookies.port,
 		dbName = req.cookies.dbname,
-		collectionName = req.body.document;
+		collectionName = req.cookies.collectionName;
 	var server = new MongoServer(hostName,port,{auto_reconnect: false, poolSize: 4}, {w:0, native_parser: false});
 	db = new Db(dbName,server);
 		db.open(function(err,db){
 			if (err) return next(err);
-			db.collection(collectionName).insert(req.body.doc,function(err,doc){
+			db.collection(collectionName).insert(req.body,function(err,doc){
 				if (err) return next(err);
+				res.response = res.response || {};
 				res.response.data = doc;
 				next();
 			});

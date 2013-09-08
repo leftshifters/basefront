@@ -57,10 +57,23 @@
   </div>
 
   <button type="submit" class="btn btn-default btn-primary js-add-document">Add New</button>
+
+
+  <div id="myModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <textarea id='documentBody' style="width:100%;height:100%;"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary saveDoc">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
 </script>
 
 <script id="document" type="text/template">
-  <form class="document-modal">
-    <textarea id="document-content" class="zen-mode go-zen">{ foo: 'bar' }</textarea>
-  </form>
+
 </script>
