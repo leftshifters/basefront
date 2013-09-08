@@ -295,7 +295,7 @@ app.views.documentListView = app.views.baseView.extend({
     e.preventDefault();
     var $target = $(e.target);
     var docContent = $target.attr('data-document');
-    this.oldDoc = docContent;
+    this.oldDoc = unescape(docContent);
 
     $('#myModal-edit').modal('show');
     this.$('#documentBodyUpdate').val(unescape(docContent));
